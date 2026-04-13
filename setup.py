@@ -10,13 +10,13 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name="cameralib",
-    version="1.0.1",
-    author="OpenDroneMap Contributors",
+    version="1.0.2",
+    author="WebODM Contributors",
     author_email="pt@uav4geo.com",
     description="Camera library for ODM",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/OpenDroneMap/CameraLib",
+    url="https://github.com/WebODM/CameraLib",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

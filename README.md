@@ -1,6 +1,6 @@
 # CameraLib
 
-A Python library to perform forward and backward projection of 2D coordinates in camera space to geographic coordinates on [ODM](https://github.com/OpenDroneMap/ODM) datasets. In simple terms, with an ODM dataset at hand you can use this library to ask:
+A Python library to perform forward and backward projection of 2D coordinates in camera space to geographic coordinates on [ODM](https://github.com/WebODM/ODM) datasets. In simple terms, with an ODM dataset at hand you can use this library to ask:
 
  * Given a pixel coordinate in an image, where does it correspond on the map?
  * And it's inverse: given a location on the map, which images and pixels correspond to it?
@@ -10,14 +10,14 @@ A Python library to perform forward and backward projection of 2D coordinates in
 ## Install
 
 ```bash
-pip install -U https://github.com/OpenDroneMap/CameraLib/archive/main.zip
+pip install -U https://github.com/WebODM/CameraLib/archive/main.zip
 ```
 
 Note we developed the library using Python 3.12. If you're having issues with other versions of Python, you might need to relax the versions in `requirements.txt`.
 
 ## Usage
 
-Check the [documentation](https://cameralib.readthedocs.io/) and [examples](https://github.com/OpenDroneMap/CameraLib/tree/main/examples).
+Check the [documentation](https://cameralib.readthedocs.io/) and [examples](https://github.com/WebODM/CameraLib/tree/main/examples).
 
 Along with functions for doing coordinates projection, in the `cameralib.utils` package we also offer utilities to read certain annotation file formats. A use case for this is to use a software such as [X-AnyLabeling](https://github.com/CVHub520/X-AnyLabeling/releases) to annotate an image and then use this library to project the polygon/bounding boxes to geographic coordinates.
 
@@ -31,7 +31,7 @@ CameraLib requires the following files from an ODM project. It's important that 
 
 ## Running the Examples
 
-After [installing](#install) `cameralib` you can download any of the [examples](https://github.com/OpenDroneMap/CameraLib/tree/main/examples) into a folder of your choice and run:
+After [installing](#install) `cameralib` you can download any of the [examples](https://github.com/WebODM/CameraLib/tree/main/examples) into a folder of your choice and run:
 
 ```bash
 python helloworld.py
@@ -47,8 +47,7 @@ There are many ways to contribute to the project:
 
  - ⭐️ us on GitHub.
  - Help us test the application.
- - Spread the word about OpenDroneMap on social media.
- - Help answer questions on the community [forum](https://community.opendronemap.org)
+ - Spread the word about WebODM on social media.
  - Become a contributor!
 
  ## License

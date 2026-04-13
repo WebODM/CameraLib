@@ -1,10 +1,10 @@
 """
-CameraLib is a library for performing forward and backward projection of 2D coordinates in camera space to geographic coordinates on ODM datasets. It's an official `OpenDroneMap`_ project.
+CameraLib is a library for performing forward and backward projection of 2D coordinates in camera space to geographic coordinates on ODM datasets. It's an official `WebODM`_ project.
 
 Installation:
 -------------
 
-``pip install -U https://github.com/OpenDroneMap/CameraLib/archive/main.zip``
+``pip install -U https://github.com/WebODM/CameraLib/archive/main.zip``
 
 Quickstart:
 -----------
@@ -37,22 +37,20 @@ License: AGPLv3, see LICENSE for more details.
 API
 ---
 
-.. _OpenDroneMap:
-    https://www.opendronemap.org
+.. _WebODM:
+    https://webodm.org
 .. _Hello World:
-   https://github.com/OpenDroneMap/CameraLib/blob/main/examples/helloworld.py
+   https://github.com/WebODM/CameraLib/blob/main/examples/helloworld.py
 .. _X-AnyLabeling annotations to GeoJSON:
-   https://github.com/OpenDroneMap/CameraLib/blob/main/examples/anylabeling.py
+   https://github.com/WebODM/CameraLib/blob/main/examples/anylabeling.py
 .. _Yolov7 annotations to GeoJSON:
-   https://github.com/OpenDroneMap/CameraLib/blob/main/examples/yolov7.py
+   https://github.com/WebODM/CameraLib/blob/main/examples/yolov7.py
 .. _Round Trip:
-   https://github.com/OpenDroneMap/CameraLib/blob/main/examples/roundtrip.py
+   https://github.com/WebODM/CameraLib/blob/main/examples/roundtrip.py
 .. _report it:
-    https://github.com/OpenDroneMap/CameraLib/issues
+    https://github.com/WebODM/CameraLib/issues
 .. _`GitHub`:
-    https://github.com/OpenDroneMap/CameraLib
-.. _`Community Forum`:
-    https://community.opendronemap.org
+    https://github.com/WebODM/CameraLib
 """
 
 name = "cameralib"

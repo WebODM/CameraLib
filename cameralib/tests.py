@@ -5,7 +5,7 @@ from zipfile import ZipFile
 def get_test_dataset():
     dataset_path = os.path.join("test_datasets", "brighton")
     dataset_zip = os.path.join(dataset_path, "brighton.zip")
-    dataset_url = "https://github.com/OpenDroneMap/CameraLib/releases/download/v0.0.1/brighton.zip"
+    dataset_url = "https://github.com/WebODM/CameraLib/releases/download/v0.0.1/brighton.zip"
 
     if not os.path.isfile(dataset_zip):
         os.makedirs(dataset_path, exist_ok=True)
