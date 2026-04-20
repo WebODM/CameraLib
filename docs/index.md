@@ -1,6 +1,6 @@
 # CameraLib
 
-CameraLib is a Python library for forward and backward projection of 2D image coordinates to geographic coordinates on ODX datasets.
+CameraLib is a Python library for forward and backward projection of 2D image coordinates to geographic coordinates on [ODX](https://github.com/WebODM/ODX) datasets.
 
 Use it to answer questions such as:
 
