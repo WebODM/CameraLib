@@ -1,5 +1,5 @@
 """
-CameraLib is a library for performing forward and backward projection of 2D coordinates in camera space to geographic coordinates on ODM datasets. It's an official `WebODM`_ project.
+CameraLib is a library for performing forward and backward projection of 2D coordinates in camera space to geographic coordinates on ODX datasets. It's an official `WebODM`_ project.
 
 Installation:
 -------------
@@ -9,7 +9,7 @@ Installation:
 Quickstart:
 -----------
 
-Make sure that your ODM project has an elevation model available (pass the ``--dsm`` option when processing a dataset), then:
+Make sure that your ODX project has an elevation model available (pass the ``--dsm`` option when processing a dataset), then:
 
    >>> from cameralib import Projector
    >>> p = Projector("/dataset/brighton")

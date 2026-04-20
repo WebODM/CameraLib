@@ -13,7 +13,7 @@ setuptools.setup(
     version="1.0.2",
     author="WebODM Contributors",
     author_email="pt@uav4geo.com",
-    description="Camera library for ODM",
+    description="Camera library for ODX",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/WebODM/CameraLib",

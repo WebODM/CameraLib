@@ -4,6 +4,7 @@ import numpy as np
 from scipy import ndimage
 import rasterio
 import logging
+from typing import Any
 from cameralib.geo import get_utm_xyz, get_latlon, raster_sample_z
 from cameralib.camera import load_shots, load_cameras, map_pixels
 from cameralib.exceptions import *
@@ -13,20 +14,20 @@ logger = logging.getLogger(__name__)
 
 
 class Projector:
-    """A projector to perform camera coordinates operations on ODM datasets
+    """A projector to perform camera coordinates operations on ODX datasets
     
     Args:
-        project_path (str): Path to ODM project
+        project_path (str): Path to ODX project
         z_sample_window (int): Size of the window to use when sampling elevation values
         z_sample_strategy (str): Strategy to use when sampling elevation values. Can be one of: ['minimum', 'maximum', 'average', 'median']
         z_sample_target (str): Elevation raster to use for sampling elevation. One of: ['dsm', 'dtm']
-        z_fill_nodata: Whether to fill nodata cells with nearest neighbor cell values. This gives a wider coverage for queries, but increases the initialization time.
+        z_fill_nodata (bool): Whether to fill nodata cells with nearest neighbor cell values. This gives a wider coverage for queries, but increases the initialization time.
         raycast_resolution_multiplier (float): Value that affects the ray sampling resolution. Lower values can lead to slightly more precise results, but increase processing time.
-        dem_path (str): Manually set a path to a valid GeoTIFF DEM for sampling Z values instead of using the default.
+        dem_path (str | None): Manually set a path to a valid GeoTIFF DEM for sampling Z values instead of using the default.
     """
-    def __init__(self, project_path, z_sample_window=1, z_sample_strategy='median', z_sample_target='dsm', z_fill_nodata=True, raycast_resolution_multiplier=0.7071, dem_path=None):
+    def __init__(self, project_path: str, z_sample_window: int = 1, z_sample_strategy: str = 'median', z_sample_target: str = 'dsm', z_fill_nodata: bool = True, raycast_resolution_multiplier: float = 0.7071, dem_path: str | None = None) -> None:
         if not os.path.isdir(project_path):
-            raise IOError(f"{project_path} is not a valid path to an ODM project")
+            raise IOError(f"{project_path} is not a valid path to an ODX project")
         
         self.project_path = project_path
         self.z_sample_window = z_sample_window
@@ -65,7 +66,7 @@ class Projector:
         self.dem_data = None
         self.min_z = None
     
-    def _read_dem(self):
+    def _read_dem(self) -> None:
         if self.raster is None:
             self.raster = rasterio.open(self.dem_path, 'r')
             self.dem_data = self.raster.read(1)
@@ -77,21 +78,21 @@ class Projector:
                                                     return_indices=True)
                 self.dem_data = self.dem_data[tuple(indices)]
 
-    def __del__(self):
+    def __del__(self) -> None:
         if self.raster is not None:
             self.raster.close()
             self.raster = None
 
-    def cam2world(self, image, coordinates, normalized=False):
+    def cam2world(self, image: str, coordinates: list[tuple[float, float]] | np.ndarray, normalized: bool = False) -> list[tuple[float, float, float] | None]:
         """Project 2D pixel coordinates in camera space to geographic coordinates
         
         Args:
-            image (str): image filename
-            coordinates (list of tuples): x,y pixel coordinates
-            normalized (bool): whether the input coordinates are normalized to [0..1]
+            image (str): Image filename.
+            coordinates (list[tuple[float, float]] | numpy.ndarray): Pixel coordinates as (x, y) pairs.
+            normalized (bool): Whether the input coordinates are normalized to [0..1].
         
         Returns:
-            list of tuples: longitude,latitude,elevation for each coordinate pair
+            Geographic coordinates (list[tuple[float, float, float] | None]): Geographic coordinates as (lat, lon, elevation) for each coordinate pair. Returns None for rays that do not intersect the DEM.
         """
         if not image in self.shots_map:
             raise InvalidArgError(f"Image {image} not found in {self.shots_path}")
@@ -103,9 +104,9 @@ class Projector:
         self._read_dem()
 
         r = s['rotation']
-        focal = s['focal']
         img_w = s['width']
         img_h = s['height']
+        coordinates = np.asarray(coordinates, dtype=float)
         if normalized:
             coordinates *= np.array([img_w, img_h])
 
@@ -160,18 +161,22 @@ class Projector:
         return results
                         
 
-    def cam2geoJSON(self, image, coordinates, properties={}, normalized=False):
+    def cam2geoJSON(self, image: str, coordinates: list[tuple[float, float]] | np.ndarray, properties: dict[str, Any] | None = None, normalized: bool = False) -> dict[str, Any]:
         """Project 2D pixel coordinates in camera space to geographic coordinates and output the result
         as GeoJSON. A single coordinate results in a Point, two coordinates into a LineString and more than two into a Polygon.
         
         Args:
-            image (str): image filename
-            coordinates (list of tuples): x,y pixel coordinates
-            normalized (bool): whether the input coordinates are normalized to [0..1]
+            image (str): Image filename.
+            coordinates (list[tuple[float, float]] | numpy.ndarray): Pixel coordinates as (x, y) pairs.
+            properties (dict[str, Any] | None): Optional GeoJSON feature properties.
+            normalized (bool): Whether the input coordinates are normalized to [0..1].
         
         Returns:
-            dict: GeoJSON
+            dict[str, Any]: GeoJSON FeatureCollection.
         """
+        if properties is None:
+            properties = {}
+
         results = self.cam2world(image, coordinates, normalized)
 
         if 'image' not in properties:
@@ -204,25 +209,16 @@ class Projector:
         return j
 
     
-    def world2cams(self, longitude, latitude, normalized=False):
+    def world2cams(self, longitude: float, latitude: float, normalized: bool = False) -> list[dict[str, str | float]]:
         """Find which cameras in the reconstruction see a particular location.
 
         Args:
             longitude (float): Longitude
             latitude (float): Latitude
-            normalized (bool): Whether to normalize pixel coordinates by the image dimension. By default pixel coordinates are in range [0..image width], [0..image height])
+            normalized (bool): Whether to normalize pixel coordinates by the image dimension. By default pixel coordinates are in range [0..image width], [0..image height].
 
         Returns:
-            list of dict: A list of dictionaries where each dictionary represents a camera with the following information:
-            [
-                {
-                    'filename': str     # The filename of the image associated with the camera
-
-                    'x': float          # The x-coordinate in camera space
-
-                    'y': float          # The y-coordinate in camera space 
-                }
-            ]
+            Cameras (list[dict[str, str | float]]): A list of camera dictionaries containing filename, x, and y keys.
         """
         self._read_dem()
         Xa, Ya, Za = get_utm_xyz(self.raster, self.dem_data, self.dem_nodata, longitude, latitude, 

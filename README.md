@@ -1,6 +1,6 @@
 # CameraLib
 
-A Python library to perform forward and backward projection of 2D coordinates in camera space to geographic coordinates on [ODM](https://github.com/WebODM/ODM) datasets. In simple terms, with an ODM dataset at hand you can use this library to ask:
+A Python library to perform forward and backward projection of 2D coordinates in camera space to geographic coordinates on [ODX](https://github.com/WebODM/ODX) datasets. In simple terms, with an ODX dataset at hand you can use this library to ask:
 
  * Given a pixel coordinate in an image, where does it correspond on the map?
  * And it's inverse: given a location on the map, which images and pixels correspond to it?
@@ -17,13 +17,13 @@ Note we developed the library using Python 3.12. If you're having issues with ot
 
 ## Usage
 
-Check the [documentation](https://cameralib.readthedocs.io/) and [examples](https://github.com/WebODM/CameraLib/tree/main/examples).
+Check the [documentation](https://cameralib.webodm.org/) and [examples](https://github.com/WebODM/CameraLib/tree/main/examples).
 
 Along with functions for doing coordinates projection, in the `cameralib.utils` package we also offer utilities to read certain annotation file formats. A use case for this is to use a software such as [X-AnyLabeling](https://github.com/CVHub520/X-AnyLabeling/releases) to annotate an image and then use this library to project the polygon/bounding boxes to geographic coordinates.
 
-## Required Files in ODM project
+## Required Files in ODX project
 
-CameraLib requires the following files from an ODM project. It's important that you process a dataset with the `--dsm` or `--dtm` option.
+CameraLib requires the following files from an ODX project. It's important that you process a dataset with the `--dsm` or `--dtm` option.
 
  * `odm_dem/dsm.tif` or `odm_dem/dtm.tif`
  * `odm_report/shots.geojson`
