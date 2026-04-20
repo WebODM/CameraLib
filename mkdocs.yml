@@ -1,6 +1,6 @@
 site_name: CameraLib
 site_url: https://cameralib.webodx.org
-site_description: A Python library to project camera-space coordinates to map coordinates on ODX datasets
+site_description: A Python library to perform forward and backward projection of 2D coordinates in camera space to geographic coordinates on ODX datasets
 repo_url: https://github.com/WebODM/CameraLib
 repo_name: WebODM/CameraLib
 
