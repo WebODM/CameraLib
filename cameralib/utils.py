@@ -3,30 +3,20 @@ import os
 import glob
 import logging
 from pathlib import Path
+from typing import Any
 
 
 logger = logging.getLogger(__name__)
 
 
-def read_xanylabeling_annotations(labels_dir):
+def read_xanylabeling_annotations(labels_dir: str) -> list[dict[str, Any]]:
     """Read an annotation file generated with X-AnyLabeling (https://github.com/CVHub520/X-AnyLabeling)
     
     Args:
-        labels_dir (str): Path to a directory containing X-AnyLabeling labels
+        labels_dir (str): Path to a directory containing X-AnyLabeling labels.
     
     Returns:
-        list of dict: a list containing dictionaries with the following information
-        [
-            {
-                'image': str            # Image filename
-
-                'coordinates': list     # Coordinates of annotation
-
-                'properties': dict     # Properties of the annotation
-
-                'normalized': bool      # False
-            }
-        ]
+        Annotations (list[dict[str, Any]]): A list of annotations with image, coordinates, properties, and normalized fields.
     """
     files = glob.glob(os.path.join(labels_dir, "*.json")) + glob.glob(os.path.join(labels_dir, "*.JSON"))
     annotations = []
@@ -47,26 +37,15 @@ def read_xanylabeling_annotations(labels_dir):
     return annotations
 
 
-def read_yolov7_annotations(labels_dir, image_suffix='.JPG'):
-    """Read an annotation directory in Yolov7 format
+def read_yolov7_annotations(labels_dir: str, image_suffix: str = '.JPG') -> list[dict[str, Any]]:
+    """Read an annotation directory in YOLOv7 format
     
     Args:
-        dir (str): Path to a directory containing Yolov7 labels
-        image_suffix (str): Extension of the target images
+        labels_dir (str): Path to a directory containing YOLOv7 labels.
+        image_suffix (str): Extension of the target images.
     
     Returns:
-        list of dict: a list containing dictionaries with the following information
-        [
-            {
-                'image': str            # Image filename
-
-                'coordinates': list     # Coordinates of annotation
-
-                'properties': dict      # Label of the annotation
-
-                'normalized': bool      # True
-            }
-        ]
+        Annotations (list[dict[str, Any]]): A list of annotations with image, coordinates, properties, and normalized fields.
     """
 
     files = glob.glob(os.path.join(labels_dir, "*.txt")) + glob.glob(os.path.join(labels_dir, "*.TXT"))
